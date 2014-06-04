@@ -1,0 +1,38 @@
+service.playerlog
+=================
+
+Log what you play and when you play it in a MySQL database.
+
+Compatibility
+-------------
+* XBMC 13.0 Gotham
+
+
+Prerequisites
+-------------
+* script.module.myconnpy v1.1.7 (or higher) must be installed.
+* MySQL must be configured to allow access from hosts other than
+  127.0.0.1 when it is not running on the same host.
+
+
+Installation
+------------
+Unzip in your addon's directory either manually or install the addon from 
+XBMC using the 'Install from zip file'-menu option in the 'Add-ons'-menu.
+
+In your XBMC Addons directory (e.g. ~/.xbmc/addons) you will find the service.playerlog directory. In this directory open the 'createdb.txt'-file to find the instructions for creating the database in MySQL. This must be done manually, the plugin will not automatically create the database!
+
+
+Configuration
+--------------
+Go to the 'Settings->Add-ons->Add-ons'-menu and select the 'Enabled Add-ons'-
+menu option. Select 'Services' and then select'Playerlog Service'.
+Select 'Configure'.
+Configure your database connection.
+
+Note: You need to configure this for every profile that you use!
+
+
+
+
+
