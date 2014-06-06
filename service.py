@@ -18,6 +18,7 @@
 ### import modules
 import datetime
 import mysql.connector
+from mysql.connector import errorcode
 import os
 import socket
 import xbmc
@@ -61,30 +62,31 @@ class PlayerlogDB:
         self.username = username
         self.password = password
 
-    def getDbConnection(self):
-        if self.dbconnection is None:
-            log('hostname: ' + self.hostname)
-            log('port....: ' + self.port)
-            log('database: ' + self.database)
-            log('username: ' + self.username)
-            log('password: ' + self.password)
-            self.dbconnection = mysql.connector.Connect(host = self.hostname, 
-                                                        port = int(self.port),
-                                                        database = self.database,
-                                                        user = self.username,
-                                                        password = self.password)
-        return self.dbconnection 
-
     def insertLogEntry(self, hostname, userprofile, action, filename, title):
-        dbconnection = self.getDbConnection()
-        cursor = dbconnection.cursor()
+        try:
+            dbconnection = mysql.connector.Connect(host = self.hostname, 
+                                                    port = int(self.port),
+                                                    database = self.database,
+                                                    user = self.username,
+                                                    password = self.password)
 
-        query = ("INSERT INTO log (hostname, userprofile, action, filename, title) "
-                "VALUES (%s, %s, %s, %s, %s)")
-        data = (hostname, userprofile, action, filename, title)
-        cursor.execute(query, data)
-        dbconnection.commit()
-        cursor.close()
+            cursor = dbconnection.cursor()
+            cursor.execute("set names utf8;")
+
+            query = ("INSERT INTO log (hostname, userprofile, action, filename, title) "
+                    "VALUES (%s, %s, %s, %s, %s)")
+            data = (hostname, userprofile, action, filename, title)
+            cursor.execute(query, data)
+            dbconnection.commit()
+            cursor.close()
+            dbconnection.close()
+        except mysql.connector.Error as err:
+            if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+              log("Incorrect MySQL username or password")
+            elif err.errno == errorcode.ER_BAD_DB_ERROR:
+              log("Database does not exists")
+            else:
+              log(err)
 
 class PlayerLogService(xbmc.Player):
 
