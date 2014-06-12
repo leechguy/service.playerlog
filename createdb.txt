@@ -1,14 +1,16 @@
-CREATE DATABASE playerlog;
+DROP DATABASE IF EXISTS playerlog;
+
+CREATE DATABASE playerlog CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 CREATE TABLE playerlog.log ( 
   id             INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  timestamp      TIMESTAMP DEFAULT NOW(),
+  timestamp      TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   hostname       VARCHAR(50) NOT NULL,
   userprofile    VARCHAR(25) NOT NULL,
   action         VARCHAR(25) NOT NULL,
   filename       VARCHAR(255) NOT NULL,
   title          VARCHAR(255)
-); 
+);
 
 CREATE USER 'playerlog'@'%' IDENTIFIED BY 'playerlog';
 GRANT ALL PRIVILEGES ON playerlog.* TO 'playerlog'@'%' IDENTIFIED BY 'playerlog';

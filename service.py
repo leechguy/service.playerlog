@@ -68,10 +68,15 @@ class PlayerlogDB:
                                                     port = int(self.port),
                                                     database = self.database,
                                                     user = self.username,
-                                                    password = self.password)
+                                                    password = self.password,
+                                                    charset = 'utf8',
+                                                    collation = 'utf8_general_ci')
 
             cursor = dbconnection.cursor()
-            cursor.execute("set names utf8;")
+            cursor.execute('SET NAMES utf8;')
+            cursor.execute('SET CHARACTER SET utf8;')
+            cursor.execute('SET character_set_connection=utf8;')
+
 
             query = ("INSERT INTO log (hostname, userprofile, action, filename, title) "
                     "VALUES (%s, %s, %s, %s, %s)")

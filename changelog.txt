@@ -1,3 +1,11 @@
+Version 0.1.2
+
+- Correctly store UTF-8 charachters in the database (db schema update!)
+
+Version 0.1.1
+
+- Fix DB connection timeout
+
 Version 0.1.0
 
 - Initial release.
